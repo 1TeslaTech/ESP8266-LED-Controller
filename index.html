@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>esp8266</title>
+    <title>کنترل LED با ESP8266</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
         }
         button {
             padding: 15px 30px;
             font-size: 18px;
             margin: 10px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         .on {
             background-color: green;
@@ -24,28 +31,37 @@
             background-color: red;
             color: white;
         }
+        .blink {
+            background-color: orange;
+            color: white;
+        }
+        .stop {
+            background-color: gray;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-    <h1>ESP8266 با LED کنترل</h1>
-    <h1>.</h1>
-    <h1>.</h1>
-    <h1>.</h1>
-    <h1>. </h1>  
-    <button class="on" onclick="sendRequest('ON')">LED روشن</button>
-    <button class="off" onclick="sendRequest('OFF')">LED خاموش</button>
-    <button class="on" onclick="sendRequest('BLINK')">LED چشمک‌زن</button>
-    <button class="off" onclick="sendRequest('STOP')">توقف چشمک‌زن</button>
+    <h1>کنترل LED با ESP8266</h1>
+    <button class="on" onclick="sendCommand('ON')">LED روشن</button>
+    <button class="off" onclick="sendCommand('OFF')">LED خاموش</button>
+    <button class="blink" onclick="sendCommand('BLINK')">LED چشمک‌زن</button>
+    <button class="stop" onclick="sendCommand('STOP')">توقف چشمک‌زن</button>
 
     <script>
-        function sendRequest(command) {
-            const espIP = "192.168.48.183"; // آدرس IP ESP8266 را وارد کنید
-            fetch(`http://${espIP}/${command}`)
+        const espIP = "192.168.48.183"; // آدرس IP ESP8266
+
+        function sendCommand(command) {
+            const url = `http://${espIP}/${command}`;
+            fetch(url)
                 .then(response => {
                     if (response.ok) {
-                        console.log("درخواست با موفقیت ارسال شد.");
+                        console.log(`درخواست "${command}" با موفقیت ارسال شد.`);
                     } else {
-                        console.error("خطا در ارسال درخواست.");
+                        console.error(`خطا در ارسال درخواست "${command}".`);
                     }
                 })
                 .catch(error => {
