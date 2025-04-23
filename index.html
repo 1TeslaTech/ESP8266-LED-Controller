@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>esp8266</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .on {
+            background-color: green;
+            color: white;
+        }
+        .off {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>ESP8266 با LED کنترل</h1>
+    <h1>.</h1>
+    <h1>.</h1>
+    <h1>.</h1>
+    <h1>. </h1>  
+    <button class="on" onclick="sendRequest('ON')">LED روشن</button>
+    <button class="off" onclick="sendRequest('OFF')">LED خاموش</button>
+    <button class="on" onclick="sendRequest('BLINK')">LED چشمک‌زن</button>
+    <button class="off" onclick="sendRequest('STOP')">توقف چشمک‌زن</button>
+
+    <script>
+        function sendRequest(command) {
+            const espIP = "192.168.48.183"; // آدرس IP ESP8266 را وارد کنید
+            fetch(`http://${espIP}/${command}`)
+                .then(response => {
+                    if (response.ok) {
+                        console.log("درخواست با موفقیت ارسال شد.");
+                    } else {
+                        console.error("خطا در ارسال درخواست.");
+                    }
+                })
+                .catch(error => {
+                    console.error("خطا: ", error);
+                });
+        }
+    </script>
+</body>
+</html>
